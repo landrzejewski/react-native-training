@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import  colors from "../utils/colors";
 
 export default function ContactListItem({ name, avatar, phone, onPress }) {
-    console.log(name);
   return (
     <TouchableHighlight underlayColor={colors.grey} style={styles.container} onPress={onPress}>
       <View style={styles.contactInfo}>

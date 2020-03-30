@@ -5,6 +5,10 @@ import ContactListItem from "../components/ContactListItem";
 import { fetchContacts } from "../utils/api";
 
 export default class Contacts extends React.Component {
+  static navigationOptions = {
+    title: "Contacts list"
+  }
+
   state = {
     contacts: [],
     loading: true,
@@ -29,7 +33,8 @@ export default class Contacts extends React.Component {
 
   renderContact = ({ item }) => {
     const { name, avatar, phone } = item;
-    return <ContactListItem name={name} avatar={avatar} phone={phone}/>
+    const { navigation: { navigate }} = this.props;
+    return <ContactListItem name={name} avatar={avatar} phone={phone} onPress={() =>  navigate("Profile", { contact: item })}/>
   };
 
   render() {
@@ -43,6 +48,7 @@ export default class Contacts extends React.Component {
     return (
       <View style={styles.container}>
         <FlatList
+          numColumns={3}
           style={styles.contacts}
           data={contacts}
           renderItem={this.renderContact}
