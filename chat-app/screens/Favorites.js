@@ -7,15 +7,15 @@ import {
   ActivityIndicator
 } from "react-native";
 
-import ContactListItem from "../components/ContactListItem";
-
 import { fetchContacts } from "../utils/api";
+
+import ContactThumbnail from "../components/ContactThumbnail";
 
 const keyExtractor = ({ phone }) => phone;
 
-export default class Contacts extends React.Component {
+export default class Favorites extends React.Component {
   static navigationOptions = {
-    title: "Contacts list"
+    title: "Favorites"
   };
 
   state = {
@@ -27,7 +27,6 @@ export default class Contacts extends React.Component {
   async componentDidMount() {
     try {
       const contacts = await fetchContacts();
-
       this.setState({
         contacts,
         loading: false,
@@ -41,17 +40,15 @@ export default class Contacts extends React.Component {
     }
   }
 
-  renderContact = ({ item }) => {
+  renderFavoriteThumbnail = ({ item }) => {
     const {
       navigation: { navigate }
     } = this.props;
-    const { id, name, avatar, phone } = item;
+    const { avatar } = item;
 
     return (
-      <ContactListItem
-        name={name}
+      <ContactThumbnail
         avatar={avatar}
-        phone={phone}
         onPress={() => navigate("Profile", { contact: item })}
       />
     );
@@ -59,20 +56,20 @@ export default class Contacts extends React.Component {
 
   render() {
     const { loading, contacts, error } = this.state;
-
-    const contactsSorted = contacts.sort((a, b) =>
-      a.name.localeCompare(b.name)
-    );
+    const favorites = contacts.filter(contact => contact.favorite);
 
     return (
       <View style={styles.container}>
         {loading && <ActivityIndicator size="large" />}
         {error && <Text>Error...</Text>}
+
         {!loading && !error && (
           <FlatList
-            data={contactsSorted}
+            data={favorites}
             keyExtractor={keyExtractor}
-            renderItem={this.renderContact}
+            numColumns={3}
+            contentContainerStyle={styles.list}
+            renderItem={this.renderFavoriteThumbnail}
           />
         )}
       </View>
@@ -85,5 +82,8 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     justifyContent: "center",
     flex: 1
+  },
+  list: {
+    alignItems: "center"
   }
 });
