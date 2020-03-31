@@ -16,6 +16,7 @@ import {
   createLocationMessage
 } from "../utils/MessagesUtils";
 import MessageList from "../components/MessagesList";
+import ImageGrid from "../components/ImageGrid"
 import Toolbar from "../components/Toolbar";
 
 export default class Messages extends React.Component {
@@ -176,7 +177,11 @@ export default class Messages extends React.Component {
 
 
   renderPicker() {
-    return <View style={styles.picker}></View>;
+    return (
+    <View style={styles.inputMethodEditor}>
+      <ImageGrid />
+    </View>
+    )
   }
 
   render() {
