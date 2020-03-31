@@ -1,165 +1,146 @@
-### ContactListItem
-
-ContactListItem.propTypes = {
-  name: PropTypes.string.isRequired,
-  avatar: PropTypes.string.isRequired,
-  phone: PropTypes.string.isRequired,
-  onPress: PropTypes.func.isRequired,
-};
+### ImageGrid
 
 const styles = StyleSheet.create({
-  container: {
-    paddingLeft: 24,
-  },
-  contactInfo: {
+  image: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingTop: 16,
-    paddingBottom: 16,
-    paddingRight: 24,
-    borderBottomColor: colors.grey,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-  },
-  avatar: {
-    borderRadius: 22,
-    width: 44,
-    height: 44,
-  },
-  details: {
-    justifyContent: 'center',
-    flex: 1,
-    marginLeft: 20,
-  },
-  title: {
-    color: colors.black,
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
-  subtitle: {
-    color: colors.blue,
-    fontSize: 15,
-    marginTop: 4,
   },
 });
 
 
+### Location
 
-### ContactThumbnail
+const styles = StyleSheet.create({
+  container: {},
+  text: {
+    color: 'blue',
+  },
+});
 
-ContactThumbnail.propTypes = {
-  name: PropTypes.string,
-  avatar: PropTypes.string.isRequired,
-  phone: PropTypes.string,
-  textColor: ColorPropType,
-  onPress: PropTypes.func,
-};
+### MessageList
 
-ContactThumbnail.defaultProps = {
-  name: '',
-  phone: '',
-  textColor: 'white',
-  onPress: null,
-};
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 30,
-    marginHorizontal: 15,
+    flex: 1,
+    overflow: 'visible', // Prevents clipping on resize!
+  },
+  messageRow: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    marginBottom: 4,
+    marginRight: 10,
+    marginLeft: 60,
+  },
+  messageBubble: {
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    backgroundColor: 'rgb(16,135,255)',
+    borderRadius: 20,
+  },
+  text: {
+    fontSize: 18,
+    color: 'white',
+  },
+  image: {
+    width: 150,
+    height: 150,
+    borderRadius: 10,
+  },
+  map: {
+    width: 250,
+    height: 250,
+    borderRadius: 10,
+  },
+});
+
+### Status
+
+const styles = StyleSheet.create({
+  status: {
+    zIndex: 1,
+    height: statusHeight,
+  },
+  messageContainer: {
+    zIndex: 1,
+    position: 'absolute',
+    top: statusHeight + 20,
+    right: 0,
+    left: 0,
+    height: 80,
     alignItems: 'center',
-    justifyContent: 'center',
   },
-  avatar: {
-    width: 90,
-    height: 90,
-    borderRadius: 45,
-    borderColor: 'white',
-    borderWidth: 2,
+  bubble: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 20,
+    backgroundColor: 'red',
   },
-  name: {
+  text: {
+    color: 'white',
+  },
+});
+
+### Toolbar
+
+const styles = StyleSheet.create({
+  toolbar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    paddingLeft: 16,
+    backgroundColor: 'white',
+  },
+  inputContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    borderWidth: 1,
+    borderColor: 'rgba(0,0,0,0.04)',
+    borderRadius: 16,
+    paddingVertical: 4,
+    paddingHorizontal: 12,
+    backgroundColor: 'rgba(0,0,0,0.02)',
+  },
+  input: {
+    flex: 1,
+    fontSize: 18,
+  },
+  button: {
+    top: -2,
+    marginRight: 12,
     fontSize: 20,
-    marginTop: 24,
-    marginBottom: 2,
-    fontWeight: 'bold',
-  },
-  phoneSection: {
-    flexDirection: 'row',
-    marginTop: 4,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  phone: {
-    marginLeft: 4,
-    fontSize: 16,
-    fontWeight: 'bold',
+    color: 'grey',
   },
 });
 
 
-### DetailListItem
-
-
-const styles = StyleSheet.create({
-  borderContainer: {
-    paddingLeft: 24,
-  },
-  wrapper: {
-    flexDirection: 'row',
-    paddingTop: 16,
-    paddingBottom: 16,
-    paddingRight: 24,
-    borderBottomColor: colors.grey,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-  },
-  container: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  contentContainer: {
-    justifyContent: 'center',
-    flex: 1,
-  },
-  title: {
-    color: colors.black,
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
-  subtitle: {
-    color: colors.blue,
-    fontSize: 15,
-    marginTop: 4,
-  },
-});
-
-
-### Profile
+### Tab
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-  },
-  avatarSection: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: colors.blue,
-  },
-  detailsSection: {
     flex: 1,
     backgroundColor: 'white',
   },
-});
-
-
-### Contacts
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'white',
-    justifyContent: 'center',
+  content: {
     flex: 1,
+    backgroundColor: 'white',
+  },
+  inputMethodEditor: {
+    flex: 1,
+    backgroundColor: 'white',
+  },
+  toolbar: {
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(0,0,0,0.04)',
+    backgroundColor: 'white',
+  },
+  fullscreenOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'black',
+    zIndex: 2,
+  },
+  fullscreenImage: {
+    flex: 1,
+    resizeMode: 'contain',
   },
 });
-
-
