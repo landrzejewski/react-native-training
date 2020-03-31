@@ -7,24 +7,59 @@ import Grid from "./Grid";
 
 export default class ImageGrid extends React.Component {
   state = {
-    images: [
-      { uri: "https://picsum.photos/600/600?image=10" },
-      { uri: "https://picsum.photos/600/600?image=20" },
-      { uri: "https://picsum.photos/600/600?image=30" },
-      { uri: "https://picsum.photos/600/600?image=40" },
-      { uri: "https://picsum.photos/600/600?image=50" },
-      { uri: "https://picsum.photos/600/600?image=60" },
-      { uri: "https://picsum.photos/600/600?image=70" },
-      { uri: "https://picsum.photos/600/600?image=80" },
-      { uri: "https://picsum.photos/600/600?image=90" },
-      { uri: "https://picsum.photos/600/600?image=100" },
-      { uri: "https://picsum.photos/600/600?image=110" },
-      { uri: "https://picsum.photos/600/600?image=120" },
-      { uri: "https://picsum.photos/600/600?image=130" },
-      { uri: "https://picsum.photos/600/600?image=140" },
-      { uri: "https://picsum.photos/600/600?image=151" }
-    ]
+    images: []
   };
+
+  loading = false;
+  cursor = null;
+
+  componentDidMount() {
+      this.getImages();
+  }
+
+  getImages = async (after) => {
+      if (this.loading) return;
+
+      const { status } = await Permissions.askAsync(
+          Permissions.CAMERA_ROLL
+      )
+
+      if (status !== 'granted') {
+          console.log('Permission not granted');
+          return;
+      }
+
+      this.loading = true;
+
+      const results = await CameraRoll.getPhotos({
+          first: 3,
+          after
+      });
+
+      const {edges, page_info: { has_next_page, end_cursor } } = results;
+
+      
+
+
+      const loadedImages = edges.map(item => item.node.image);
+
+      this.setState(
+          {
+              images: this.state.images.concat(loadedImages)
+          }, 
+          () => {
+              this.loading = false;
+              this.cursor = has_next_page ? end_cursor : null;
+          }
+      )
+
+  }
+
+  getNextImages = () => {
+      if (!this.cursor) return;
+
+      this.getImages(this.cursor);
+  }
 
   keyExtractor = ({ uri }) => uri;
 
@@ -40,7 +75,8 @@ export default class ImageGrid extends React.Component {
         data={images}
         renderItem={this.renderItem}
         keyExtractor={this.keyExtractor} 
-        numColumns={6}
+        numColumns={3}
+        onEndReached={this.getNextImages}
       />
     );
   }
