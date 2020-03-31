@@ -2,6 +2,7 @@ import React from "react";
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 
+import Messages from "./screens/Messages";
 import Contacts from "./screens/Contacts";
 import Profile from "./screens/Profile";
 import Favorites from "./screens/Favorites";
@@ -14,6 +15,18 @@ import { createDrawerNavigator } from "react-navigation-drawer";
 
 const getIcon = icon => ({ tintColor }) => (
   <MaterialIcons name={icon} size={24} style={{ color: tintColor }} />
+);
+
+const MessagesScreen = createStackNavigator(
+  {
+    Messages
+  },
+  {
+    initialRouteName: "Messages",
+    navigationOptions: {
+      tabBarIcon: getIcon("mail")
+    }
+  }
 );
 
 const ContactsScreen = createStackNavigator(
@@ -82,12 +95,13 @@ const UserScreens = createStackNavigator(
 
 const DrawerNavigator = createDrawerNavigator(
   {
+    Messages: MessagesScreen,
     Contacts: ContactsScreen,
     Favorites:FavoritesScreen,
     User: UserScreens
   },
   {
-    initialRouteName: "Contacts"
+    initialRouteName: "Messages"
   }
 ) 
 
