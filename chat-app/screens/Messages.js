@@ -4,7 +4,8 @@ import {
   View,
   Alert,
   Image,
-  TouchableHighlight
+  TouchableHighlight,
+  BackHandler
 } from "react-native";
 import colors from "../utils/colors";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -40,6 +41,24 @@ export default class Messages extends React.Component {
       />
     )
   });
+
+  componentWillMount() {
+    this.subscription = BackHandler.addEventListener(
+      "hardwareBackPress",
+      () => {
+        const { fullscreenImageId } = this.state;
+        if (fullscreenImageId) {
+          this.dismissFullScreenImage();
+          return true;
+        }
+        return false;
+      }
+    );
+  }
+
+  componentWillUnmount() {
+    this.subscription.remove();
+  }
 
   dismissFullScreenImage = () => {
     this.setState({ fullscreenImageId: null });
