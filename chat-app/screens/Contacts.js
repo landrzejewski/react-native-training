@@ -7,42 +7,68 @@ import {
   ActivityIndicator
 } from "react-native";
 
+import { MaterialIcons } from "@expo/vector-icons";
 import ContactListItem from "../components/ContactListItem";
+import colors from "../utils/colors";
 
 import { fetchContacts } from "../utils/api";
+import store from "../store";
 
 const keyExtractor = ({ phone }) => phone;
 
 export default class Contacts extends React.Component {
-  static navigationOptions = {
-    title: "Contacts list"
-  };
+  static navigationOptions = ({ navigation: { navigate, openDrawer } }) => ({
+    title: "Contacts list",
+    headerStyle: {
+      backgroundColor: colors.blue
+    },
+    headerLeft: (
+      <MaterialIcons
+        name="menu"
+        size={24}
+        style={{ color: "white", marginLeft: 10 }}
+        onPress={() => openDrawer()}
+      />
+    )
+  });
 
   state = {
-    contacts: [],
-    loading: true,
-    error: false
+    contacts: store.getState().contacts,
+    loading: store.getState().isLoadingContacts,
+    error: store.getState().error
   };
 
   async componentDidMount() {
+    this.unsubscribe = store.onChange(() => {
+      this.setState({
+        contacts: store.getState().contacts,
+        loading: store.getState().isLoadingContacts,
+        error: store.getState().error
+      })
+    }); 
+
     try {
       const contacts = await fetchContacts();
-
-      this.setState({
+      store.setState({
         contacts,
-        loading: false,
-        error: false
+        isLoadingContacts: false,
       });
     } catch (e) {
-      this.setState({
-        loading: false,
+      store.setState({
+        isLoadingContacts: false,
         error: true
       });
     }
   }
 
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
   renderContact = ({ item }) => {
-    const {navigation: { navigate }} = this.props;
+    const {
+      navigation: { navigate }
+    } = this.props;
     const { id, name, avatar, phone } = item;
 
     return (
