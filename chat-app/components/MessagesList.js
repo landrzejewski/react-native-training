@@ -5,7 +5,6 @@ import MapView from "react-native-maps";
 
 export default class MessageList extends React.Component {
   renderMessageBody = ({ type, text, uri, coordinates }) => {
-    console.log(type, text, uri, coordinates);
     switch (type) {
       case "text":
         return (
