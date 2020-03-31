@@ -10,6 +10,7 @@ import User from "./screens/User";
 import { MaterialIcons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import colors from "./utils/colors";
+import { createDrawerNavigator } from "react-navigation-drawer";
 
 const getIcon = icon => ({ tintColor }) => (
   <MaterialIcons name={icon} size={24} style={{ color: tintColor }} />
@@ -55,25 +56,39 @@ const UserScreens = createStackNavigator(
   }
 );
 
-const TabNavigator = createBottomTabNavigator(
+// const TabNavigator = createBottomTabNavigator(
+//   {
+//     Contacts: ContactsScreen,
+//     Favorites:FavoritesScreen,
+//     User: UserScreens
+//   },
+//   {
+//     initialRouteName: "Contacts",
+//     tabBarPosition: "bottom",
+//     tabBarOptions: {
+//       style: {
+//         backgroundColor: colors.greyLight
+//       },
+//       showLabel: false,
+//       showIcon: true,
+//       activeTintColor: colors.blue,
+//       inactiveTintColor: colors.greyDark
+//     }
+//   }
+// );
+
+// export default createAppContainer(TabNavigator);
+
+
+const DrawerNavigator = createDrawerNavigator(
   {
     Contacts: ContactsScreen,
     Favorites:FavoritesScreen,
     User: UserScreens
   },
   {
-    initialRouteName: "Contacts",
-    tabBarPosition: "bottom",
-    tabBarOptions: {
-      style: {
-        backgroundColor: colors.greyLight
-      },
-      showLabel: false,
-      showIcon: true,
-      activeTintColor: colors.blue,
-      inactiveTintColor: colors.greyDark
-    }
+    initialRouteName: "Contacts"
   }
-);
+) 
 
-export default createAppContainer(TabNavigator);
+export default createAppContainer(DrawerNavigator);
