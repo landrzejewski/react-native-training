@@ -5,6 +5,7 @@ import { createStackNavigator } from "react-navigation-stack";
 import Contacts from "./screens/Contacts";
 import Profile from "./screens/Profile";
 import Favorites from "./screens/Favorites";
+import Options from "./screens/Options";
 import User from "./screens/User";
 import { MaterialIcons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "react-navigation-tabs";
@@ -42,9 +43,11 @@ const FavoritesScreen = createStackNavigator(
 
 const UserScreens = createStackNavigator(
   {
-    User
+    User,
+    Options
   },
   {
+    mode: "modal",
     initialRouteName: "User",
     navigationOptions: {
       tabBarIcon: getIcon("person")

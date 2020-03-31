@@ -42,9 +42,7 @@ export default class Contacts extends React.Component {
   }
 
   renderContact = ({ item }) => {
-    const {
-      navigation: { navigate }
-    } = this.props;
+    const {navigation: { navigate }} = this.props;
     const { id, name, avatar, phone } = item;
 
     return (
