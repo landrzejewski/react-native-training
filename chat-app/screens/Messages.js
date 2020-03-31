@@ -16,6 +16,7 @@ import {
   createLocationMessage
 } from "../utils/MessagesUtils";
 import MessageList from "../components/MessagesList";
+import Toolbar from "../components/Toolbar";
 
 export default class Messages extends React.Component {
   state = {
@@ -25,7 +26,8 @@ export default class Messages extends React.Component {
       createImageMessage("https://unsplash.it/200/200"),
       createLocationMessage({ latitude: 37.78825, longitude: -121.43 })
     ],
-    fullscreenImageId: null
+    fullscreenImageId: null,
+    isInputFocused: false
   };
 
   static navigationOptions = ({ navigation: { navigate, openDrawer } }) => ({
@@ -130,9 +132,48 @@ export default class Messages extends React.Component {
     );
   }
 
-  renderToolBar() {
-    return <View style={styles.toolbar}></View>;
+  handleChangeFocus = isFocused => {
+    this.setState({ isInputFocused: isFocused });
+  };
+
+  handleSubmit = text => {
+    const { messages } = this.state;
+
+    this.setState({
+      messages: [createTextMessage(text), ...messages],
+    });
+  };
+
+  handlePressToolbarLocation = () => {
+    const { messages } = this.state;
+
+    navigator.geolocation.getCurrentPosition((position) => {
+        const { coords:  { longitude, latitude} } = position;
+
+        this.setState({
+            messages: [
+                createLocationMessage({ longitude, latitude}),
+                ...messages
+            ]
+        });
+    })
+  };
+
+  renderToolbar() {
+    const { isInputFocused } = this.state;
+    return (
+      <View style={styles.toolbar}>
+        <Toolbar
+          isFocused={isInputFocused}
+          onSubmit={this.handleSubmit}
+          onChangeFocus={this.handleChangeFocus}
+          onPressCamera={this.handlePressToolbarCamera}
+          onPressLocation={this.handlePressToolbarLocation}
+        />
+      </View>
+    );
   }
+
 
   renderPicker() {
     return <View style={styles.picker}></View>;
@@ -143,7 +184,7 @@ export default class Messages extends React.Component {
       <View style={styles.container}>
         <Status />
         {this.renderMessagesList()}
-        {this.renderToolBar()}
+        {this.renderToolbar()}
         {this.renderPicker()}
         {this.renderFullscreenImage()}
       </View>
